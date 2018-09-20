@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -50,6 +51,19 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(savedInstanceState != null){
+
+            /*If the app is restaring, then we shoud get back all the previous info
+            * the saved status of the app stored by OnSaveInstanceState. After retrieving
+            * the information from the Bundle, show it to the user by updating the score and que question.
+            * */
+            mScore = savedInstanceState.getInt("ScoreKey");
+            mIndex = savedInstanceState.getInt("IndexKey");
+
+        }else{
+
+        }
 
         buttonTrue = (Button) findViewById(R.id.true_button);
         buttonFalse = (Button) findViewById(R.id.false_button);
@@ -123,5 +137,15 @@ public class MainActivity extends Activity {
             Toast.makeText(getApplicationContext(), R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //If the app its about to be paused, then it would be better to save any status
+
+
+        outState.putInt("ScoreKey", mScore);
+        outState.putInt("IndexKey", mIndex);
     }
 }
